@@ -11,16 +11,17 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<link href="/media/css/story_page.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascripts %}
 {{ block.super }}
 <script>
 $(document).on('click','.btn_prev',function(event){
-    loadItems($(event.target).attr('value'), 'prev', $(event.target), $(event.target).closest('div').parent());
+    loadItems($(event.target).attr('value'), 'prev', $(event.target), $(event.target).closest('div').parent().parent());
 });
 $(document).on('click','.btn_next',function(event){
-    loadItems($(event.target).attr('value'), 'next', $(event.target), $(event.target).closest('div').parent());
+    loadItems($(event.target).attr('value'), 'next', $(event.target), $(event.target).closest('div').parent().parent());
 });
 
 var loadItems = function(ph_id, direction, pwt, par) {
@@ -28,30 +29,35 @@ var loadItems = function(ph_id, direction, pwt, par) {
     var url = "/parallelstory/?phid="+ph_id + "&direction=" + direction;
     $.ajax({
         type:"GET",
-        url: url, 
+        url: url,
         success: function(responseData) {
             var data = JSON.parse(responseData);
             var html = [];
             $.each(data.paragraphs, function(index, paragraph){
-              html.push('<div>');
-              html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'">prev</a>');
-              html.push('<button name="prev_p" type="submit" value="',paragraph.id,'">new branch</button>');
-              html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">next</a>');
-              html.push('<p>',paragraph.text,'</p>');
+              html.push('<div style="text-align:center">');
+              html.push('<div class="moving">');
+              html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>');
+              html.push('<p class="mainstory">',paragraph.text,'</p>');
+              html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>');
+              html.push('</div>');
+              html.push('<button class="newbranch" name="prev_p" type="submit" value="',paragraph.id,'">Create branch</button>');
             });
             console.log(html.join(""));
             var it = pwt.closest('div').parentElement;
-            pwt.closest('div').remove();
+            pwt.closest('div').parent().remove();
             $("<div>" + html.join("")+"</div>").appendTo(par);
-
         },
         error:function(){
         },
         complete: function(data){
         }
     });
-};   
+};
 </script>
+{% endblock %}
+{% block header %}
+{{ block.super }}
+{% include 'components/header.html' with header_title="" %}
 {% endblock %}
 
 {% block contents %}
@@ -59,19 +65,20 @@ var loadItems = function(ph_id, direction, pwt, par) {
 
 <div class="row">
     <form class="form-signin" method="post" action="/insert/">
-        {% csrf_token %} 
-        <div class="col-xs-6 col-xs-offset-3" >
-            <h4 style="display:block; text-align: center" >{{novel.title}}</h4>
+        {% csrf_token %}
+        <div class="col-xs-8 col-xs-offset-2 paper">
             {% for paragraph in paragraphs %}
-            <div>
-                <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}">prev</a>
-                <button name="prev_p" type="submit" value="{{paragraph.id}}">new branch</button>
-                <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">next</a>
-                <p>{{paragraph.text}}</p>
+            <div style="text-align:center">
+              <div class="moving">
+              <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>
+                <p class="mainstory">{{paragraph.text}}</p>
+                <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>
+              </div>
+                <button class="newbranch" name="prev_p" type="submit" value="{{paragraph.id}}">Create branch</button>
                 {% endfor %}
-        </div>
+            </div>
     </form>
-        </div>
+</div>
         {% endblock %}
 
 {% block footer %}
