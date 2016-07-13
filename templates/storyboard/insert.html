@@ -16,6 +16,7 @@
 
 {% block javascripts %}
   {{ block.super }}
+  <script type = "text/javascript" src="/media/js/text-editor.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -25,7 +26,7 @@
 
 {% block contents %}
 <div class="containers">
-  <div class="row">
+    <div class="row">
 
 
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -33,48 +34,46 @@
 
 
 
-<form class="form-horizontal" role="form" method="post">
-    {% csrf_token %}
-    {% if prev_p %}
-    <input type="hidden" name = "prev_p" value = {{ prev_p }} />
-    {% endif %}
+            <form id="form" class="form-horizontal" role="form" method="post" action="/insert/add/">
+                {% csrf_token %}
+                {% if prev_p %}
+                <input type="hidden" name = "prev_p" value = {{ prev_p }} />
+                {% endif %}
 
-            <input type="text" style="border-radius:4px" class="form-control" id="title" name="title" placeholder="{{novel_title}}" {% if prev_p %} readonly{% endif %} required>
-            <hr width="inherit" style="border-top: 1px solid #fff">
-            <hr style="border-top: 1px solid #fff;margin-bottom: 0px">
-            <div class="bundle">
-              <div class="menus" style="text:center">
-              <input id="submit" name="submit" type="submit" value="B o l d" class="btn btn-primary editing" style="font-weight:900" formaction="/insert/add/">
-              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
-              <input id="submit" name="submit" type="submit" value="I t a l i c" style="font-style:italic" class="btn btn-primary editing"formaction="/insert/add/">
-              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
-              <input id="submit" name="submit" type="submit" value="Q u o t e " class="btn btn-primary editing"  formaction="/insert/add/">
-              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
-              <input id="submit" name="submit" type="submit" value="Larger text" class="btn btn-primary editing"  formaction="/insert/add/">
-              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
-              <input id="submit" name="submit" type="submit" value="Hand Writing" class="btn btn-primary editing" formaction="/insert/add/">
-              </div>
-            <textarea style="border-radius:4px" class="form-control story" rows="4" name="text" placeholder="{% if prev_p %}- Previous Story -&#13;&#10;{{prev_text}}{% else %}Write your own story{% endif %}" required></textarea>
-          </div>
-            <hr border-top=transparent>
-            <ul class="pager">
-              <li class="next">
-                    <input id="submit" name="submit" type="submit" value="Upload" class="btn btn-primary but" style="border-radius:4px" formaction="/insert/add/">
-              </li>
-            </ul>
-</form>
+                <input type="text" style="border-radius:4px" class="form-control" id="title" name="title" placeholder="{{novel_title}}" {% if prev_p %} readonly{% endif %} required>
 
+                <hr width="inherit" style="border-top: 1px solid #fff">
+                <hr style="border-top: 1px solid #fff;margin-bottom: 0px">
+                <div class="bundle">
+                    <div class="menus" style="text:center">
+                        <a class="btn editing" style="font-weight:900" id = "bold" >B o l d</a>
+                        <hr>
+                        <a class="btn editing" style="font-style:italic" id = "italic" >I t a l i c</a>
+                        <hr>
+                        <a class="btn editing" id = "quote" >Q u o t e</a>
+                        <hr>
+                        <a class="btn editing" id = "subtitle" >S u b t i t l e</a>
+                    </div>
+                    <div id="novel_text" class="form-control story" rows="4" contenteditable="true" placeholder="{% if prev_p %}- Previous Story -&#13;&#10;{{prev_text}}{% else %}Write your own story{% endif %}" required></div>
+                </div>
+                <hr border-top=transparent>
+                <ul class="pager">
+                    <li class="next">
+                        <input id="submit" name="submit" readonly value="Upload" class="btn btn-primary but">
+                        <input id="text" name="text" type="hidden" value="">
+                        <input style="display:none" id="hidden_submit" type="submit">
+                    </li>
+                </ul>
+            </form>
 
-</div>
+        </div>
 
-
-
-</div>
+    </div>
 </div>
 
 
 {% endblock %}
 
 {% block footer %}
-  {{ block.super }}
+{{ block.super }}
 {% endblock %}

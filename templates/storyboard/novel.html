@@ -15,45 +15,7 @@
 
 {% block javascripts %}
 {{ block.super }}
-<script>
-$(document).on('click','.btn_prev',function(event){
-    loadItems($(event.target).attr('value'), 'prev', $(event.target), $(event.target).closest('div').parent());
-});
-$(document).on('click','.btn_next',function(event){
-    loadItems($(event.target).attr('value'), 'next', $(event.target), $(event.target).closest('div').parent());
-});
-
-var loadItems = function(ph_id, direction, pwt, par) {
-
-    var url = "/parallelstory/?phid="+ph_id + "&direction=" + direction;
-    $.ajax({
-        type:"GET",
-        url: url, 
-        success: function(responseData) {
-            var data = JSON.parse(responseData);
-            var html = [];
-            $.each(data.paragraphs, function(index, paragraph){
-                html.push('<div>');
-                if(!paragraph.is_parallelfirst)
-                    html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'">prev</a>');
-                html.push('<button name="prev_p" type="submit" value="',paragraph.id,'">new branch</button>');
-                if(!paragraph.is_parallellast)
-                    html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">next</a>');
-                html.push('<p>',paragraph.text,'</p>');
-            });
-            console.log(html.join(""));
-            var it = pwt.closest('div').parentElement;
-            pwt.closest('div').remove();
-            $("<div>" + html.join("")+"</div>").appendTo(par);
-
-        },
-        error:function(){
-        },
-        complete: function(data){
-        }
-    });
-};   
-</script>
+<script type="text/javascript" src="/media/js/novel-ajax.js"></script>
 {% endblock %}
 
 {% block contents %}
@@ -62,18 +24,11 @@ var loadItems = function(ph_id, direction, pwt, par) {
 <div class="row">
     <form class="form-signin" method="post" action="/insert/">
         {% csrf_token %} 
-        <div class="col-xs-6 col-xs-offset-3" >
+        <div id="novelbox" class="col-xs-6 col-xs-offset-3" >
             <h4 style="display:block; text-align: center" >{{novel.title}}</h4>
             {% for paragraph in paragraphs %}
-            <div>
-                {% if not paragraph.is_parallelfirst %}
-                <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}">prev</a>
-                {% endif %}
-                <button name="prev_p" type="submit" value="{{paragraph.id}}">new branch</button>
-                {% if not paragraph.is_parallellast %}
-                <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">next</a>
-                {% endif %}
-                <p>{{paragraph.text}}</p>
+            <div id="first_box">
+                <input type="hidden" class="first_text" value="{{paragraph.text}}^|&|{{paragraph.id}}^|&|{{paragraph.index}}^|&|{{paragraph.is_parallelfirst}}^|&|{{paragraph.is_parallellast}}">
                 {% endfor %}
         </div>
     </form>

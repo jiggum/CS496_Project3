@@ -14,56 +14,8 @@
 {% endblock %}
 
 {% block javascripts %}
-{{ block.super }}
-<script>
-function replaceSelectionWithHtml(tag) {
-    var range, html, temp, temp_node, base, exit;
-    range = window.getSelection().getRangeAt(0);
-    temp = range.toString();
-    base = window.getSelection().baseNode.parentNode;
-    range.deleteContents();
-    base_parent = base.parentNode
-    while(base.tagName != "DIV"){
-        $(base).contents().unwrap();
-        if(base.tagName == "H2" || base.tagName == "B"|| base.tagName == "I"|| base.tagName == "BLOCKQUOTE"){
-            exit = true;
-            break;
-        }
-
-        temp_node = base_parent;
-        base_parent = base.parentNode;
-        base = temp_node;
-    };
-    var div = document.createElement("div");
-    if(exit){
-       div.innerHTML = temp;
-    }
-    else{
-       div.innerHTML = "<" + tag + ">" + temp + "</" + tag + ">";
-    }
-    var frag = document.createDocumentFragment(), child;
-    while ( (child = div.firstChild) ) {
-        frag.appendChild(child);
-    }
-    range.insertNode(frag);
-}
-$(document).on('click','#large',function(){
-    replaceSelectionWithHtml("h2");
-});
-$(document).on('click','#bold',function(){
-    replaceSelectionWithHtml("b");
-});
-$(document).on('click','#itelic',function(){
-    replaceSelectionWithHtml("i");
-});
-$(document).on('click','#example',function(){
-    replaceSelectionWithHtml("blockquote");
-});
-$(document).on('click','#default',function(){
-    replaceSelectionWithHtml("");
-});
-
-  </script>
+  {{ block.super }}
+  <script type = "text/javascript" src="/media/js/text-editor.js"></script>
 {% endblock %}
 
 {% block header %}
