@@ -33,11 +33,13 @@ var loadItems = function(ph_id, direction, pwt, par) {
             var data = JSON.parse(responseData);
             var html = [];
             $.each(data.paragraphs, function(index, paragraph){
-              html.push('<div>');
-              html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'">prev</a>');
-              html.push('<button name="prev_p" type="submit" value="',paragraph.id,'">new branch</button>');
-              html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">next</a>');
-              html.push('<p>',paragraph.text,'</p>');
+                html.push('<div>');
+                if(!paragraph.is_parallelfirst)
+                    html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'">prev</a>');
+                html.push('<button name="prev_p" type="submit" value="',paragraph.id,'">new branch</button>');
+                if(!paragraph.is_parallellast)
+                    html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">next</a>');
+                html.push('<p>',paragraph.text,'</p>');
             });
             console.log(html.join(""));
             var it = pwt.closest('div').parentElement;
@@ -64,9 +66,13 @@ var loadItems = function(ph_id, direction, pwt, par) {
             <h4 style="display:block; text-align: center" >{{novel.title}}</h4>
             {% for paragraph in paragraphs %}
             <div>
+                {% if not paragraph.is_parallelfirst %}
                 <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}">prev</a>
+                {% endif %}
                 <button name="prev_p" type="submit" value="{{paragraph.id}}">new branch</button>
+                {% if not paragraph.is_parallellast %}
                 <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">next</a>
+                {% endif %}
                 <p>{{paragraph.text}}</p>
                 {% endfor %}
         </div>
