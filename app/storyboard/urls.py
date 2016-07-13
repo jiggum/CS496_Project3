@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^parallelstory/$', app.storyboard.views.get_parallel_story_json),
     url(r'^team/$', app.storyboard.views.team_view),
     url(r'^profile/([^/]+)/$', app.storyboard.views.profile_view),
+    url(r'^test/$', app.storyboard.views.test_view),
 
 ]

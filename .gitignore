@@ -27,5 +27,6 @@ lib64
 *.pyc
 *.pyo
 *.swp
+migrations/
 settings.py
 db.sqlite3

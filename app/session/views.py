@@ -24,16 +24,19 @@ def login_view(request):
         password = ""
         return render(request, 'session/login.html',ctx)
     
-    if not User.objects.filter(username=username).exists():
-        ph_nickname = "No matched User!"
-    else:
+    if User.objects.filter(username=username).exists() or User.objects.filter(email=username).exists():
         user = authenticate(username = username, password=password)
         if user == None:
-            ph_password = "Wrong Password!"
-        else:
+            username = User.objects.get(email = username).username
+            user = authenticate(username = username, password=password)
+        if user != None:
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
             return redirect(request.GET.get('next','/'))
+        else:
+            ph_password = "Wrong Password!"
+    else:
+        ph_nickname = "No matched User!"
     ctx = {
             'ph_nickname':ph_nickname,
             'ph_password':ph_password,

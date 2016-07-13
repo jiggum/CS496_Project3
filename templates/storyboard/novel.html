@@ -36,11 +36,12 @@ var loadItems = function(ph_id, direction, pwt, par) {
             $.each(data.paragraphs, function(index, paragraph){
               html.push('<div style="text-align:center">');
               html.push('<div class="moving">');
-              html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>');
+              if(!paragraph.is_parallelfirst)
+			  html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>');
               html.push('<p class="mainstory">',paragraph.text,'</p>');
-              html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>');
+              if(!paragraph.is_parallellast)
+			  html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>');
               html.push('</div>');
-              html.push('<button class="newbranch" name="prev_p" type="submit" value="',paragraph.id,'">Create branch</button>');
             });
             console.log(html.join(""));
             var it = pwt.closest('div').parentElement;
@@ -70,11 +71,17 @@ var loadItems = function(ph_id, direction, pwt, par) {
             {% for paragraph in paragraphs %}
             <div style="text-align:center">
               <div class="moving">
-              <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>
-                <p class="mainstory">{{paragraph.text}}</p>
+              {% if not paragraph.is_parallelfirst %}
+			  <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>
+                {% endif %}
+
+				 <p class="mainstory">{{paragraph.text}}</p>
+				{% if not paragraph.is_parallellast %}
                 <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>
-              </div>
+              {% endif %}
+			</div>
                 <button class="newbranch" name="prev_p" type="submit" value="{{paragraph.id}}">Create branch</button>
+                <p>{{paragraph.text}}</p>
                 {% endfor %}
             </div>
     </form>

@@ -41,7 +41,7 @@ def insert(request):
     if prev_p ==None:
         new_novel = Novel(title = title, writer = user)
         new_novel.save()
-        new_p = Paragraph(text = text_array[start_i], novel = new_novel, writer = user,is_first = True, is_userfirst = is_userfirst)
+        new_p = Paragraph(text = text_array[start_i], novel = new_novel, writer = user,is_first = True, is_userfirst = is_userfirst, is_parallelfirst = True, is_parallellast = True)
         new_p.save()
         is_userfirst = False
         prev_p = new_p
@@ -51,14 +51,34 @@ def insert(request):
         novel = prev_p.novel
         prev_p = prev_p.prev_paragraph
     if prev_p == None:
-        new_p = Paragraph(text = text_array[start_i], novel = novel, writer = user, is_first = True, is_userfirst = is_userfirst, index = novel.paragraph_set.filter(is_first = True).count()+1)
+        try:
+            parallel_last = novel.paragraph_set.get(is_first = True, is_parallellast = True)
+            parallel_count = parallel_last.index
+            parallel_exists = True
+            parallel_last.is_parallellast = False
+            parallel_last.save()
+        except:
+            parallel_exists = False
+            parallel_count = 0
+        new_p = Paragraph(text = text_array[start_i], novel = novel, writer = user, is_first = True, is_userfirst = is_userfirst, index = parallel_count+1, is_parallellast = True, is_parallelfirst = not parallel_exists)
         new_p.save()
         is_userfirst = False
         prev_p = new_p
         start_i +=1
 
     for i in range(start_i,len(text_array)):
-        new_p = Paragraph(prev_paragraph = prev_p, text = text_array[i], novel = prev_p.novel, writer = user, is_userfirst = is_userfirst, index = prev_p.next_paragraph_set.count()+1)
+        try:
+            parallel_last = prev_p.next_paragraph_set.get(is_parallellast = True)
+            parallel_count = parallel_last.index
+            parallel_exists = True
+            parallel_last.is_parallellast = False
+            parallel_last.save()
+        except:
+            parallel_exists = False
+            parallel_count = 0
+
+
+        new_p = Paragraph(prev_paragraph = prev_p, text = text_array[i], novel = prev_p.novel, writer = user, is_userfirst = is_userfirst, index = parallel_count+1, is_parallellast = True, is_parallelfirst = not parallel_exists)
         new_p.save()
         is_userfirst = False
         prev_p = new_p
@@ -110,3 +130,22 @@ def profile_view(request, user_name):
             'header_title' : user.username,
     }
     return render(request, 'storyboard/main.html', ctx)
+
+
+def test_view(request):
+    return render(request, 'storyboard/test.html')
+
+def like(request):
+    user = request.user
+    prev_p = request.POST.get('prev_p', None)
+    target_p = Paragraph.objects.get(id=prev_p)
+    if LikeCheck.objects.filter(paragraph=prev_p, user = user).exists():
+        return False
+    target_p.like_all()
+    likecheck = LikeCheck(user = user, paragraph = target_p)
+    likecheck.is_up = True
+    likecheck.save()
+    return True;
+
+
+
