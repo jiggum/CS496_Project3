@@ -11,12 +11,10 @@
 
 {% block stylesheets %}
   {{ block.super }}
-  <!-- <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">-->
 {% endblock %}
 
 {% block javascripts %}
 {{ block.super }}
-<!-- <script type="text/javascript" src="/media/js/components/header.js"></script> -->
 <script>
 $(document).on('click','.btn_prev',function(event){
     loadItems($(event.target).attr('value'), 'prev', $(event.target), $(event.target).closest('div').parent());

@@ -40,7 +40,11 @@ def login_view(request):
     }
 
     return render(request, 'session/login.html',ctx)
-    
+
+def user_logout(request):
+    if request.user.is_authenticated():
+        logout(request)
+    return redirect("/")
 
 
 def register_view(request):

@@ -13,14 +13,18 @@ body {
 }
 
 .container {
-	background-color: transparent;
+	background-color: #000;
+	opacity : 0.55;
+	border-radius:7px;
 	position : fixed;
-	top : 50%;
+	top : 55%;
 	left : 50%;
 	-webkit-transform : translate(-50%, -50%);
 	transform : translate(-50%, -50%);
 	overflow: hidden;
 	width : auto;
+	height: auto;
+    padding:5px 10px 5px 10px;
 }
 
 #title {
@@ -30,7 +34,8 @@ body {
 	font-family : 'Simplifica', sans-serif;
 	font-size : 50px;
 	font-weight : 200px;
-	color : #3c2f2f;
+	color : #fff;
+    cursor:pointer;
 }
 #login {
 	background-color: transparent;
@@ -44,45 +49,78 @@ body {
 	width: 250px;
 	height: 30px;
 	background: transparent;
-	border: 1px solid #3c2f2f;
+	border: 1px solid #fff;
 	border-radius: 2px;
-	color: #3c2f2f;
+	color: #fff;
 	font-family: 'Simplifica', sans-serif;
 	font-size: 20px;
 	font-weight: 400;
 	padding: 4px;
-	margin-top: 10px;
+	margin-top: 5px;
+	margin-bottom : 5px;
 }
 
+#login input[type=text]{
+	text-align: center;
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid #fff;
+	border-radius: 2px;
+	color: #fff;
+	font-family: 'Simplifica', sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 5px;
+	margin-bottom : 5px;
+}
 
 #login input[type=password]{
 	text-align: center;
 	width: 250px;
 	height: 30px;
 	background: transparent;
-	border: 1px solid #3c2f2f;
+	border: 1px solid #fff;
 	border-radius: 2px;
-	color: #3c2f2f;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 5px;
+	margin-bottom : 5px;
+}
+
+#login input[type=password]{
+	text-align: center;
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid #fff;
+	border-radius: 2px;
+	color: #fff;
 	font-family: 'Simplifica', sans-serif;
 	font-size: 20px;
 	font-weight: 400;
 	padding: 4px;
-	margin-top: 10px;
+	margin-top: 5px;
+	margin-bottom : 5px;
 }
 
 #login input[type=submit]{
 	text-align: center center;
 	width: 250px;
 	height: 30px;
-	background: transparent;
-	border: 1px solid #3c2f2f;
+	background: #444;
+	border: 1px solid #fff;
 	cursor: pointer;
 	border-radius: 2px;
-	color: #3c2f2f;
+	color: #fff;
 	font-family: 'Simplifica', sans-serif;
 	font-size: 20px;
 	font-weight: 400;
-	margin-top: 10px;
+	margin-top: 5px;
+	margin-bottom : 5px;
 }
 
 #login input[type=submit]:hover{
@@ -96,12 +134,12 @@ body {
 #login input[type=text]:focus{
 	outline: none;
 	opacity:1;
-	border: 1px solid rgba (60,47,47, 1);
+	border: 1px solid rgba (255,255,255, 1);
 }
 
 #login input[type=password]:focus{
 	outline: none;
-	border: 1px solid rgba (60,47,47, 1);
+	border: 1px solid rgba (255,255,255, 1);
 }
 
 #login input[type=submit]:focus{
@@ -109,7 +147,7 @@ body {
 }
 
 ::-webkit-input-placeholder{
-   color: rgba(60,47,47,0.8);
+   color: rgba(255,255,255,0.8);
 }
 
 ::-moz-input-placeholder{

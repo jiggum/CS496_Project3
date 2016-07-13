@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^insert/add/$', app.storyboard.views.insert),
     url(r'^novel/([^/]+)/$', app.storyboard.views.novel_view),
     url(r'^parallelstory/$', app.storyboard.views.get_parallel_story_json),
+    url(r'^team/$', app.storyboard.views.team_view),
+    url(r'^profile/([^/]+)/$', app.storyboard.views.profile_view),
 
 ]

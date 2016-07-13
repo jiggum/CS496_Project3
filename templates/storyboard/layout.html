@@ -1,4 +1,4 @@
-{% extends "storyboard/base.html" %}
+{% extends "base.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -11,11 +11,23 @@
 
 {% block stylesheets %}
   {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="/media/css/global.css">
 {% endblock %}
 
 {% block javascripts %}
+{{ block.super }}
+<!-- jQuery -->
+<script src="/media/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/media/js/bootstrap.min.js"></script>
+
+<!-- Theme JavaScript -->
+<script src="/media/js/templete.js"></script>
+{% endblock %}
+
+{% block header %}
   {{ block.super }}
+  {% include 'components/nav.html' %}
 {% endblock %}
 
 {% block contents %}
@@ -27,4 +39,5 @@
 
 {% block footer %}
   {{ block.super }}
+  {% include 'components/footer.html' %}
 {% endblock %}

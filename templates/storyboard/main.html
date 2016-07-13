@@ -11,24 +11,49 @@
 
 {% block stylesheets %}
   {{ block.super }}
-  <!-- <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">-->
 {% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
-  <!-- <script type="text/javascript" src="/media/js/components/header.js"></script> -->
+{% endblock %}
+
+{% block header %}
+  {{ block.super }}
+  {% include 'components/header.html' with header_title=header_title %}
 {% endblock %}
 
 {% block contents %}
 
-      
-<div class="row">
-    <div class="col-xs-6 col-xs-offset-3" style="text-align: center;">
-        {% for novel in novels %}
-        <a style="display:block" href="/novel/{{novel.id}}">{{novel.title}}</a>
-        {% endfor %}
-        <a class="btn btn-primary" href="/insert" role="button">novel add</a>
-    </div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<ul style="list-style-type:none">
+				{% for paragraph in paragraphs %}
+				<li>
+					<div class="post-preview">
+						<a href="/novel/{{paragraph.novel.id}}">
+							<h2 class="post-title">
+								{{paragraph.novel.title}}
+							</h2>
+                            <h3 class="post-subtitle">
+								{{paragraph.text|truncatechars:40}}
+							</h3>
+
+						</a>
+                        <p class="post-meta">written by <a href="/profile/{{paragraph.writer.username}}">{{paragraph.writer}}</a> on {{paragraph.pub_date|date:"M, d, Y"}}</p>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+			<hr>
+			<!-- Pager -->
+			<ul class="pager">
+				<li class="next">
+					<a href="#">Older Posts &rarr;</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
 {% endblock %}
 

@@ -1,4 +1,4 @@
-{% extends "storyboard/layout.html" %}
+{% extends "session/layout.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -16,7 +16,6 @@
 
 {% block javascripts %}
 {{ block.super }}
-<script src="/media/js/prefixfree.min.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -27,9 +26,9 @@
 <div class="container">
     <form class="form-signin" method="post">
         {% csrf_token %} 
-    <div id="title">STORY ST</div>
+    <div id="title" type="submit" onclick="location.href='/'">STORY ST</div>
     <div id="login", class="login">
-        <input type="text" style="margin-top:0px" id="inputNickname" name="inputNickname" placeholder="{{ph_nickname}}" required autofocus><br>
+        <input type="text" id="inputNickname" name="inputNickname" placeholder="{{ph_nickname}}" required autofocus><br>
         <input type="text" id="inputEmail" name="inputEmail" placeholder="{{ph_email}}" required autofocus>
         <input type="password" id="inputPassword" name="inputPassword" placeholder="{{ph_password}}" required>
         <input type="password" id="inputRePassword" name="inputRePassword" placeholder="{{ph_repassword}}" required>

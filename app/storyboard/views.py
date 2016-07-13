@@ -9,7 +9,8 @@ from django.forms.models import model_to_dict
 
 def main(request):
     ctx = {
-            'novels' : Novel.objects.all(),
+            'paragraphs' : Paragraph.objects.filter(is_first = True).order_by('-pub_date'),
+            'header_title' : "Story Street",
     }
     return render(request, 'storyboard/main.html',ctx)
 
@@ -98,3 +99,14 @@ def get_parallel_story_json(request):
     }
 
     return JsonResponse(json.dumps(ctx),safe=False)
+
+def team_view(request):
+    return render(request, 'storyboard/team.html')
+
+def profile_view(request, user_name):
+    user = User.objects.get(username = user_name)
+    ctx = {
+            'paragraphs' : user.paragraph_set.filter(is_userfirst = True).order_by('-pub_date'),
+            'header_title' : user.username,
+    }
+    return render(request, 'storyboard/main.html', ctx)
