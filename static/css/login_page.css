@@ -1,0 +1,125 @@
+@font-face {
+font-family: Simplifica;
+src: url("../font/SIMPLIFICA.ttf") format("truetype");
+
+}
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
+
+
+body {
+	background : url("../img/login_page.jpeg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+}
+
+.container {
+	background-color: transparent;
+	position : fixed;
+	top : 50%;
+	left : 50%;
+	-webkit-transform : translate(-50%, -50%);
+	transform : translate(-50%, -50%);
+	overflow: hidden;
+	width : auto;
+}
+
+#title {
+	background-color: transparent;
+	float:left;
+	margin-right:20px;
+	font-family : 'Simplifica', sans-serif;
+	font-size : 50px;
+	font-weight : 200px;
+	color : #3c2f2f;
+}
+#login {
+	background-color: transparent;
+	overflow:hidden;
+	width : 250px;
+	border : 1px transparent;
+}
+
+#login input[type=text]{
+	text-align: center;
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid #3c2f2f;
+	border-radius: 2px;
+	color: #3c2f2f;
+	font-family: 'Simplifica', sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	padding: 4px;
+}
+
+#login input[type=password]{
+	text-align: center;
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid #3c2f2f;
+	border-radius: 2px;
+	color: #3c2f2f;
+	font-family: 'Simplifica', sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 10px;
+}
+
+#login input[type=submit]{
+	text-align: center center;
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid #3c2f2f;
+	cursor: pointer;
+	border-radius: 2px;
+	color: #3c2f2f;
+	font-family: 'Simplifica', sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	margin-top: 10px;
+}
+
+#login input[type=submit]:hover{
+	opacity: 0.5;
+}
+
+#login input[type=submit]:active{
+	opacity: 1;
+}
+
+#login input[type=text]:focus{
+	outline: none;
+	opacity:1;
+	border: 1px solid rgba (60,47,47, 1);
+}
+
+#login input[type=password]:focus{
+	outline: none;
+	border: 1px solid rgba (60,47,47, 1);
+}
+
+#login input[type=submit]:focus{
+	outline: none;
+}
+
+::-webkit-input-placeholder{
+   color: rgba(60,47,47,0.8);
+}
+
+::-moz-input-placeholder{
+   color: rgba(255,255,255,1);
+}
+
+ @media screen and (max-width: 425px) {
+	#title {
+     float: none;
+     margin-right:0;
+     width:auto;
+     border:0;
+     border-bottom:2px solid transparent;
+  }
+}

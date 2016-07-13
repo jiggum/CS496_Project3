@@ -1,0 +1,44 @@
+{% extends "storyboard/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+{{ block.super }}
+Story St
+{% endblock %}
+
+{% block metatags %}
+{{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="/media/css/login_page.css"</link>
+{% endblock %}
+
+{% block javascripts %}
+{{ block.super }}
+<script src="/media/js/prefixfree.min.js"></script>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block contents %}
+
+<div class="container">
+    <form class="form-signin" method="post">
+    {% csrf_token %} 
+    <div id="title">STORY ST</div>
+    <div id="login", class="login">
+        <input type="text" id="inputNickname" name="inputNickname" placeholder="{{ph_nickname}}" autofocus>
+        <input type="password" id="inputPassword" name="inputPassword" placeholder="{{ph_password}}" ><br/>
+        <input type="submit" formaction = "/session/login/" value="Login">
+        <input type="submit" formaction = "/session/register/" value="Join Us!">
+    </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "storyboard/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+  {{ block.super }}
+{% endblock %}
+
+{% block metatags %}
+  {{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <!-- <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">-->
+{% endblock %}
+
+{% block javascripts %}
+{{ block.super }}
+<!-- <script type="text/javascript" src="/media/js/components/header.js"></script> -->
+<script>
+$(document).on('click','.btn_prev',function(event){
+    loadItems($(event.target).attr('value'), 'prev', $(event.target), $(event.target).closest('div').parent());
+});
+$(document).on('click','.btn_next',function(event){
+    loadItems($(event.target).attr('value'), 'next', $(event.target), $(event.target).closest('div').parent());
+});
+
+var loadItems = function(ph_id, direction, pwt, par) {
+
+    var url = "/parallelstory/?phid="+ph_id + "&direction=" + direction;
+    $.ajax({
+        type:"GET",
+        url: url, 
+        success: function(responseData) {
+            var data = JSON.parse(responseData);
+            var html = [];
+            $.each(data.paragraphs, function(index, paragraph){
+              html.push('<div>');
+              html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'">prev</a>');
+              html.push('<button name="prev_p" type="submit" value="',paragraph.id,'">new branch</button>');
+              html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">next</a>');
+              html.push('<p>',paragraph.text,'</p>');
+            });
+            console.log(html.join(""));
+            var it = pwt.closest('div').parentElement;
+            pwt.closest('div').remove();
+            $("<div>" + html.join("")+"</div>").appendTo(par);
+
+        },
+        error:function(){
+        },
+        complete: function(data){
+        }
+    });
+};   
+</script>
+{% endblock %}
+
+{% block contents %}
+
+
+<div class="row">
+    <form class="form-signin" method="post" action="/insert/">
+        {% csrf_token %} 
+        <div class="col-xs-6 col-xs-offset-3" >
+            <h4 style="display:block; text-align: center" >{{novel.title}}</h4>
+            {% for paragraph in paragraphs %}
+            <div>
+                <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}">prev</a>
+                <button name="prev_p" type="submit" value="{{paragraph.id}}">new branch</button>
+                <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">next</a>
+                <p>{{paragraph.text}}</p>
+                {% endfor %}
+        </div>
+    </form>
+        </div>
+        {% endblock %}
+
+{% block footer %}
+{{ block.super }}
+{% endblock %}

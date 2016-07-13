@@ -1,0 +1,37 @@
+{% extends "storyboard/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+  {{ block.super }}
+{% endblock %}
+
+{% block metatags %}
+  {{ block.super }}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <!-- <link rel="stylesheet" type="text/css" href="/media/css/components/header/result.css">-->
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <!-- <script type="text/javascript" src="/media/js/components/header.js"></script> -->
+{% endblock %}
+
+{% block contents %}
+
+      
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-3" style="text-align: center;">
+        {% for novel in novels %}
+        <a style="display:block" href="/novel/{{novel.id}}">{{novel.title}}</a>
+        {% endfor %}
+        <a class="btn btn-primary" href="/insert" role="button">novel add</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+{% endblock %}
