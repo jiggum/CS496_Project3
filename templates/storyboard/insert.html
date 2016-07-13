@@ -17,6 +17,7 @@
 {% block javascripts %}
   {{ block.super }}
   <script type = "text/javascript" src="/media/js/text-editor.js"></script>
+  <script type = "text/javascript" src="/media/js/imagetotext.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -53,6 +54,10 @@
                         <a class="btn editing" id = "quote" >Q u o t e</a>
                         <hr>
                         <a class="btn editing" id = "subtitle" >S u b t i t l e</a>
+                        <hr>
+                        <a class="btn editing" style="margin-top:100px;padding-bottom:0px " id = "imagetotext" >Image To Text</a>
+                        <input type="text" class="form-control" id="itt" placeholder="Image Url" >
+
                     </div>
                     <div id="novel_text" class="form-control story" rows="4" contenteditable="true" placeholder="{% if prev_p %}- Previous Story -&#13;&#10;{{prev_text}}{% else %}Write your own story{% endif %}" required></div>
                 </div>

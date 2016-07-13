@@ -33,7 +33,7 @@ def insert_view(request):
 def insert(request):
     user = request.user
     title = request.POST['title']
-    text_array = request.POST['text'].replace("\r","").replace('<h2>','<div><br></div><h2>').replace(' style="line-height: 28.5714px;"','').replace('<span><br></span>','').split('<div><br></div>')
+    text_array = request.POST['text'].replace("\r","").replace('<h2>','<div><br></div><h2>').replace(' style="line-height: 28.5714px;"','').replace('<span><br></span>','<br>').replace('<span>','').replace('</span>','').split('<div><br></div>')
     text_array = [x for x in text_array if len(x)>0 and x!="<div>"]
     prev_p = request.POST.get('prev_p', None)
     start_i = 0
