@@ -33,7 +33,8 @@ def insert_view(request):
 def insert(request):
     user = request.user
     title = request.POST['title']
-    text_array = request.POST['text'].replace("\r","").split("\n\n")
+    text_array = request.POST['text'].replace("\r","").replace('<h2>','<div><br></div><h2>').replace(' style="line-height: 28.5714px;"','').replace('<span><br></span>','').split('<div><br></div>')
+    text_array = [x for x in text_array if len(x)>0 and x!="<div>"]
     prev_p = request.POST.get('prev_p', None)
     start_i = 0
     is_userfirst = True
@@ -49,7 +50,8 @@ def insert(request):
     else:
         prev_p = Paragraph.objects.get(id = prev_p)
         novel = prev_p.novel
-        prev_p = prev_p.prev_paragraph
+        #prev_p = prev_p.prev_paragraph
+    """
     if prev_p == None:
         try:
             parallel_last = novel.paragraph_set.get(is_first = True, is_parallellast = True)
@@ -65,6 +67,7 @@ def insert(request):
         is_userfirst = False
         prev_p = new_p
         start_i +=1
+    """
 
     for i in range(start_i,len(text_array)):
         try:

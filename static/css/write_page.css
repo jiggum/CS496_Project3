@@ -40,11 +40,20 @@
   overflow: hidden;
 }
 
+.editing:hover{
+    color: #ccc;
+}
+.editing:focus{
+    outline: none;
+    box-shadow: none;
+}
 .story {
+  border-radius: 4px;
   font-size:20px;
   color:#000;
   height:100vh;
   width: calc(100% - 130px);
+  margin-left:130px;
   width: -moz-calc(100% - 130px);
   width: -webkit-calc(100% - 130px);
   border-color:#eee;
@@ -55,5 +64,15 @@
 
 
 .but {
+  border-radius: 4px;
   font-size: 20px
+}
+
+hr{
+    border-top: 1px solid #fff;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.form-control[readonly]{
+    background-color: #fff;
 }

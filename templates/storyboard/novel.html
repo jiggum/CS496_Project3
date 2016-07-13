@@ -16,49 +16,13 @@
 
 {% block javascripts %}
 {{ block.super }}
-<script>
-$(document).on('click','.btn_prev',function(event){
-    loadItems($(event.target).attr('value'), 'prev', $(event.target), $(event.target).closest('div').parent().parent());
-});
-$(document).on('click','.btn_next',function(event){
-    loadItems($(event.target).attr('value'), 'next', $(event.target), $(event.target).closest('div').parent().parent());
-});
 
-var loadItems = function(ph_id, direction, pwt, par) {
+<script type="text/javascript" src="/media/js/novel-ajax.js"></script>
 
-    var url = "/parallelstory/?phid="+ph_id + "&direction=" + direction;
-    $.ajax({
-        type:"GET",
-        url: url,
-        success: function(responseData) {
-            var data = JSON.parse(responseData);
-            var html = [];
-            $.each(data.paragraphs, function(index, paragraph){
-              html.push('<div style="text-align:center">');
-              html.push('<div class="moving">');
-              if(!paragraph.is_parallelfirst)
-			  html.push('<a class="btn_prev" value="',paragraph.id, '" index="', paragraph.index ,'"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>');
-              html.push('<p class="mainstory">',paragraph.text,'</p>');
-              if(!paragraph.is_parallellast)
-			  html.push('<a class="btn_next" value="',paragraph.id,'" index="',paragraph.index,'">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>');
-              html.push('</div>');
-            });
-            console.log(html.join(""));
-            var it = pwt.closest('div').parentElement;
-            pwt.closest('div').parent().remove();
-            $("<div>" + html.join("")+"</div>").appendTo(par);
-        },
-        error:function(){
-        },
-        complete: function(data){
-        }
-    });
-};
-</script>
 {% endblock %}
 {% block header %}
 {{ block.super }}
-{% include 'components/header.html' with header_title="" %}
+{% include 'components/header.html' with header_title=novel.title %}
 {% endblock %}
 
 {% block contents %}
@@ -66,22 +30,13 @@ var loadItems = function(ph_id, direction, pwt, par) {
 
 <div class="row">
     <form class="form-signin" method="post" action="/insert/">
-        {% csrf_token %}
-        <div class="col-xs-8 col-xs-offset-2 paper">
-            {% for paragraph in paragraphs %}
-            <div style="text-align:center">
-              <div class="moving">
-              {% if not paragraph.is_parallelfirst %}
-			  <a class="btn_prev" value="{{paragraph.id}}" index="{{paragraph.index}}"><&nbsp<&nbsp<&nbsp&nbsp&nbsp</a>
-                {% endif %}
 
-				 <p class="mainstory">{{paragraph.text}}</p>
-				{% if not paragraph.is_parallellast %}
-                <a class="btn_next" value="{{paragraph.id}}" index="{{paragraph.index}}">&nbsp&nbsp&nbsp>&nbsp>&nbsp></a>
-              {% endif %}
-			</div>
-                <button class="newbranch" name="prev_p" type="submit" value="{{paragraph.id}}">Create branch</button>
-                <p>{{paragraph.text}}</p>
+        {% csrf_token %}
+        <div id="novelbox" class="col-xs-8 col-xs-offset-2 paper" >
+            {% for paragraph in paragraphs %}
+            <div id="first_box">
+                <input type="hidden" class="first_text" value="{{paragraph.text}}^|&|{{paragraph.id}}^|&|{{paragraph.index}}^|&|{{paragraph.is_parallelfirst}}^|&|{{paragraph.is_parallellast}}">
+
                 {% endfor %}
             </div>
     </form>
