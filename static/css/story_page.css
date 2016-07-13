@@ -14,10 +14,15 @@
   cursor: pointer;
 }
 
-.mainstory {
-  font-size:18px;
-  text-align: left;
+.newbranch {
+  color:#000;
+  font-size: 25px;
+  background-color : #ddd;
+  border-color : transparent;
+  border-radius: 5px;
 }
+
+
 
 .btn_next {
   color:#000;
@@ -32,10 +37,7 @@
   padding-bottom:10px;
 }
 
-.newbranch {
-  color:#000;
-  font-size: 25px;
-  background-color : #ddd;
-  border-color : transparent;
-  border-radius: 5px;
+.mainstory {
+  font-size:18px;
+  text-align: left;
 }
