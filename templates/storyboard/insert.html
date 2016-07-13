@@ -11,36 +11,68 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<link href="/media/css/write_page.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
 {% endblock %}
 
+{% block header %}
+{{ block.super }}
+{% include 'components/header.html' with header_title="New Story" %}
+{% endblock %}
+
 {% block contents %}
+<div class="containers">
+  <div class="row">
+
+
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+
+
 
 <form class="form-horizontal" role="form" method="post">
     {% csrf_token %}
-    {% if prev_p %} <input type="hidden" name = "prev_p" value = {{ prev_p }} /> {% endif %}
-	<div class="form-group">
-		<label for="title" class="col-sm-2 control-label">Title</label>
-		<div class="col-sm-10">
-            <input type="text" class="form-control" id="title" name="title" placeholder="{{novel_title}}" {% if prev_p %} readonly{% endif %} required> 
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="text" class="col-sm-2 control-label">Text</label>
-		<div class="col-sm-10">
-            <textarea class="form-control" rows="4" name="text" placeholder="{% if prev_p %}- Previous Story -&#13;&#10;{{prev_text}}{% else %}New Story{% endif %}" required></textarea>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-sm-10 col-sm-offset-2">
-			<input id="submit" name="submit" type="submit" value="Send" class="btn btn-primary" formaction="/insert/add/">
-		</div>
-	</div>
+    {% if prev_p %}
+    <input type="hidden" name = "prev_p" value = {{ prev_p }} />
+    {% endif %}
+
+            <input type="text" style="border-radius:4px" class="form-control" id="title" name="title" placeholder="{{novel_title}}" {% if prev_p %} readonly{% endif %} required>
+            <hr width="inherit" style="border-top: 1px solid #fff">
+            <hr style="border-top: 1px solid #fff;margin-bottom: 0px">
+            <div class="bundle">
+              <div class="menus" style="text:center">
+              <input id="submit" name="submit" type="submit" value="B o l d" class="btn btn-primary editing" style="font-weight:900" formaction="/insert/add/">
+              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
+              <input id="submit" name="submit" type="submit" value="I t a l i c" style="font-style:italic" class="btn btn-primary editing"formaction="/insert/add/">
+              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
+              <input id="submit" name="submit" type="submit" value="Q u o t e " class="btn btn-primary editing"  formaction="/insert/add/">
+              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
+              <input id="submit" name="submit" type="submit" value="Larger text" class="btn btn-primary editing"  formaction="/insert/add/">
+              <hr style="border-top: 1px solid #fff;margin-bottom: 0px;margin-top: 0px">
+              <input id="submit" name="submit" type="submit" value="Hand Writing" class="btn btn-primary editing" formaction="/insert/add/">
+              </div>
+            <textarea style="border-radius:4px" class="form-control story" rows="4" name="text" placeholder="{% if prev_p %}- Previous Story -&#13;&#10;{{prev_text}}{% else %}Write your own story{% endif %}" required></textarea>
+          </div>
+            <hr border-top=transparent>
+            <ul class="pager">
+              <li class="next">
+                    <input id="submit" name="submit" type="submit" value="Upload" class="btn btn-primary but" style="border-radius:4px" formaction="/insert/add/">
+              </li>
+            </ul>
 </form>
-      
+
+
+</div>
+
+
+
+</div>
+</div>
+
+
 {% endblock %}
 
 {% block footer %}
