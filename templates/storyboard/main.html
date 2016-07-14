@@ -11,6 +11,7 @@
 
 {% block stylesheets %}
   {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/media/css/home_page.css">
 {% endblock %}
 
 {% block javascripts %}
@@ -31,27 +32,21 @@
 				{% for paragraph in paragraphs %}
 				<li>
 					<div class="post-preview">
-						<a href="/novel/{{paragraph.novel.id}}">
+						<a href="/novel/{{paragraph.id}}">
 							<h2 class="post-title">
-								{{paragraph.novel.title}}
+                                {{paragraph.novel.title}}&nbsp;&nbsp;<small><span class="heart fa-stack fa-sm"><i class="fa fa-stack-1x fa-heart-o">{{paragraph.novel.like}}</i></span></small>
 							</h2>
+                        </a>
                             <h3 class="post-subtitle">
-								{{paragraph.text|truncatechars:40}}
+                                <i>Written by <a class ="post-writer"  href="/profile/{{paragraph.writer.username}}">{{paragraph.writer.username}}</a></i>
 							</h3>
 
-						</a>
-                        <p class="post-meta">written by <a href="/profile/{{paragraph.writer.username}}">{{paragraph.writer}}</a> on {{paragraph.pub_date|date:"M, d, Y"}}</p>
+                        <p class="post-meta">{{paragraph.pub_date|date:"M, d, Y"}}</p>
 					</div>
 				</li>
 				{% endfor %}
 			</ul>
 			<hr>
-			<!-- Pager -->
-			<ul class="pager">
-				<li class="next">
-					<a href="#">Older Posts &rarr;</a>
-				</li>
-			</ul>
 		</div>
 	</div>
 </div>

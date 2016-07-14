@@ -11,11 +11,18 @@
 
 {% block stylesheets %}
   {{ block.super }}
+<link href="/media/css/story_page.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascripts %}
 {{ block.super }}
+
 <script type="text/javascript" src="/media/js/novel-ajax.js"></script>
+
+{% endblock %}
+{% block header %}
+{{ block.super }}
+{% include 'components/header.html' with header_title=novel.title %}
 {% endblock %}
 
 {% block contents %}
@@ -23,17 +30,26 @@
 
 <div class="row">
     <form class="form-signin" method="post" action="/insert/">
-        {% csrf_token %} 
-        <div id="novelbox" class="col-xs-6 col-xs-offset-3" >
-            <h4 style="display:block; text-align: center" >{{novel.title}}</h4>
+
+        {% csrf_token %}
+        <div id="novelbox" class="col-xs-8 col-xs-offset-2 paper" >
             {% for paragraph in paragraphs %}
             <div id="first_box">
-                <input type="hidden" class="first_text" value="{{paragraph.text}}^|&|{{paragraph.id}}^|&|{{paragraph.index}}^|&|{{paragraph.is_parallelfirst}}^|&|{{paragraph.is_parallellast}}">
+                <input type="hidden" class="first_text" value="{{paragraph.text}}^|&|{{paragraph.id}}^|&|{{paragraph.index}}^|&|{{paragraph.is_parallelfirst}}^|&|{{paragraph.is_parallellast}}^|&|{{paragraph.like}}"">
+
+                {% endfor %}
+                {% for paragraph in paragraphs %}
+                </div>
                 {% endfor %}
         </div>
     </form>
-        </div>
-        {% endblock %}
+</div>
+{% if request.user.is_authenticated %}
+<div class="col-xs-24 like_div">
+    <span><i id="like_i" class="fa fa-stack-2x fa-heart-o"></i></span>
+</div>
+{% endif %}
+{% endblock %}
 
 {% block footer %}
 {{ block.super }}

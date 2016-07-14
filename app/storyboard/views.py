@@ -33,7 +33,7 @@ def insert_view(request):
 def insert(request):
     user = request.user
     title = request.POST['title']
-    text_array = request.POST['text'].replace("\r","").replace('<h2>','<div><br></div><h2>').replace(' style="line-height: 28.5714px;"','').replace('<span><br></span>','<br>').replace('<span>','').replace('</span>','').split('<div><br></div>')
+    text_array = request.POST['text'].replace("\r","").replace('<h2>','<div><br></div><h2>').replace(' style="line-height: 28.5714px;"','').replace('<span><br></span>','<br>').replace('<span>','').replace('</span>','').split('<div><br></div><div><br></div>')
     text_array = [x for x in text_array if len(x)>0 and x!="<div>"]
     prev_p = request.POST.get('prev_p', None)
     start_i = 0
@@ -88,16 +88,18 @@ def insert(request):
 
     return redirect('/')
 
-def novel_view(request, novel_id):
+def novel_view(request, para_id):
     paragraphs = []
-    novel = Novel.objects.get(id=novel_id)
-    cursor = novel.paragraph_set.filter(is_first = True).order_by('pub_date')
+#    novel = Novel.objects.get(id=novel_id)
+ #   cursor = novel.paragraph_set.filter(is_first = True).order_by('pub_date')
+    cursor = Paragraph.objects.filter(id = para_id);
+    novel = cursor[0].novel;
     while cursor.exists():
         paragraphs.append(cursor[0])
         cursor = cursor[0].next_paragraph_set.all()
     ctx = {
-        'novel' : novel,
         'paragraphs' : paragraphs,
+        'novel' : novel,
     }
 
     return render(request, 'storyboard/novel.html',ctx)
@@ -140,15 +142,32 @@ def test_view(request):
 
 def like(request):
     user = request.user
-    prev_p = request.POST.get('prev_p', None)
+    prev_p = request.GET.get('prev_p', None)
     target_p = Paragraph.objects.get(id=prev_p)
-    if LikeCheck.objects.filter(paragraph=prev_p, user = user).exists():
-        return False
-    target_p.like_all()
-    likecheck = LikeCheck(user = user, paragraph = target_p)
-    likecheck.is_up = True
-    likecheck.save()
-    return True;
-
-
+    status = 0
+    if LikeCheck.objects.filter(paragraph=target_p, user = user).exists():
+        status = 0
+    else:
+        target_p.like_all()
+        likecheck = LikeCheck(user = user, paragraph = target_p)
+        likecheck.is_up = True
+        likecheck.save()
+        status = 1
+    ctx={
+        'state':status,
+            }
+    return JsonResponse(json.dumps(ctx),safe=False)
+def like_check(request):
+    user = request.user
+    prev_p = request.GET.get('prev_p', None)
+    target_p = Paragraph.objects.get(id=prev_p)
+    status = 0
+    if LikeCheck.objects.filter(paragraph=target_p, user = user).exists():
+        status = 1
+    else:
+        status = 0
+    ctx={
+        'state':status,
+            }
+    return JsonResponse(json.dumps(ctx),safe=False)
 

@@ -48,7 +48,7 @@
   background-color:transparent;
   font-size:20px;
   padding: 15px;
-  font-weight: 900;
+  font-weight: 100;
   color:#000;
   overflow: hidden;
 }
@@ -73,6 +73,7 @@
   border-width:medium;
   resize:none;
   border-style:dashed;
+  overflow:auto;
 }
 
 

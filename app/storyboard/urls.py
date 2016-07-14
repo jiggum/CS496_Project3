@@ -25,5 +25,7 @@ urlpatterns = [
     url(r'^team/$', app.storyboard.views.team_view),
     url(r'^profile/([^/]+)/$', app.storyboard.views.profile_view),
     url(r'^test/$', app.storyboard.views.test_view),
+    url(r'^like/$', app.storyboard.views.like),
+    url(r'^like_check/$', app.storyboard.views.like_check),
 
 ]
